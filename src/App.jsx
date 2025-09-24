@@ -5,6 +5,7 @@ import NavBar from './components/NavBar'
 import Catalog from './pages/Catalog'
 import POS from './pages/POS'
 import Picking from './pages/Picking'
+import Envios from './pages/Envios'
 import Reports from './pages/Reports'
 import { motion } from 'framer-motion'
 
@@ -39,7 +40,8 @@ export default function App() {
         className="py-4">
         {tab === 'catalog' && <Catalog onAdd={onAdd} />}
         {tab === 'pos' && <POS />}
-        {tab === 'picking' && <Picking />}
+        {tab === 'envios' && <Envios />}
+          {tab === 'picking' && <Picking />}
         {tab === 'reports' && <Reports />}
       </motion.div>
     </div>
