@@ -1,25 +1,17 @@
-export default function Ticket({ data }) {
-  if (!data) return null
-  const t = typeof data === 'string' ? JSON.parse(data) : data
+export default function Ticket({ ticket }){
+  if(!ticket) return null
   return (
-    <div className="bg-white rounded-2xl border p-4 shadow-soft">
-      <div className="text-center font-bold text-lg">Ticket #{t.id_venta}</div>
-      <div className="text-center text-sm text-slate-500">{t.fecha}</div>
-      <div className="mt-3 divide-y">
-        {(t.items || []).map((it, idx) => (
-          <div key={idx} className="py-2 flex items-center justify-between">
-            <div>
-              <div className="font-medium">{it.descripcion}</div>
-              <div className="text-xs text-slate-500">{it.cantidad} x C$ {Number(it.precio_unitario).toFixed(2)}</div>
-            </div>
-            <div className="font-semibold">C$ {Number(it.subtotal).toFixed(2)}</div>
+    <div className="card p-3">
+      <div className="font-semibold">Ticket #{ticket?.id_venta}</div>
+      <div className="text-xs text-slate-600">{new Date(ticket?.fecha).toLocaleString?.() || ''}</div>
+      <div className="mt-2">
+        {(ticket.items||[]).map((it,idx)=>(
+          <div className="flex justify-between text-sm" key={idx}>
+            <div>{it.descripcion}</div><div>x{it.cantidad}</div><div>C$ {Number(it.subtotal).toFixed(2)}</div>
           </div>
         ))}
       </div>
-      <div className="mt-3 flex items-center justify-between font-semibold">
-        <span>Total</span>
-        <span>C$ {Number(t.total).toFixed(2)}</span>
-      </div>
+      <div className="mt-2 font-bold text-right">Total: C$ {Number(ticket.total).toFixed(2)}</div>
     </div>
   )
 }

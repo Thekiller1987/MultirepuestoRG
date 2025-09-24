@@ -1,46 +1,40 @@
-import { LogOut, Package, ShoppingCart, Table2, ChartBar } from "lucide-react"
+import { Link, useLocation } from 'react-router-dom'
+import { LogOut, ShoppingCart, Users, Truck, BarChart3, Settings, Home, FileText, Package, Building2, ShoppingBag, DollarSign } from 'lucide-react'
+import { supabase } from '../lib/supabaseClient'
 
-export default function NavBar({ tab, setTab, onSignOut }) {
-  const tabs = [
-    { id: 'catalog', label: 'Catálogo', icon: Table2 },
-    { id: 'pos', label: 'POS', icon: ShoppingCart },
-    { id: 'picking', label: 'Picking', icon: Package },
-    { id: 'reports', label: 'Reportes', icon: ChartBar },
-  ]
+const tabs = [
+  { to: '/', label: 'Dashboard', icon: Home },
+  { to: '/catalog', label: 'Catálogo', icon: FileText },
+  { to: '/products', label: 'Productos', icon: Package },
+  { to: '/providers', label: 'Proveedores', icon: Building2 },
+  { to: '/purchases', label: 'Compras', icon: ShoppingBag },
+  { to: '/pos', label: 'POS', icon: ShoppingCart },
+  { to: '/accounts', label: 'Cuentas', icon: DollarSign },
+  { to: '/envios', label: 'Envíos', icon: Truck },
+  { to: '/reports', label: 'Reportes', icon: BarChart3 },
+  { to: '/settings', label: 'Ajustes', icon: Settings }
+]
+
+export default function NavBar({ user }){
+  const { pathname } = useLocation()
   return (
-    <div className="sticky top-0 z-30 bg-white/80 backdrop-blur border-b">
-      <div className="max-w-6xl mx-auto flex items-center justify-between px-3 py-2">
-        <div className="text-xl font-bold">Waskar POS</div>
-        <div className="hidden md:flex gap-2">
-          {tabs.map(t => {
-            const Icon = t.icon
-            const active = tab === t.id
+    <div className="w-full bg-white border-b">
+      <div className="max-w-7xl mx-auto px-3 h-14 flex items-center justify-between">
+        <div className="font-bold text-lg text-brand-700">MultirepuestosRG</div>
+        <nav className="flex gap-2 overflow-auto">
+          {tabs.map(t=>{
+            const Icon = t.icon; const active = pathname === t.to
             return (
-              <button
-                key={t.id}
-                onClick={() => setTab(t.id)}
-                className={`px-3 py-2 rounded-xl flex items-center gap-2 transition ${active ? 'bg-sky-600 text-white shadow-soft' : 'hover:bg-slate-100'}`}>
-                <Icon size={18} /> {t.label}
-              </button>
+              <Link key={t.to} to={t.to} className={`px-3 py-1.5 rounded-xl border flex items-center gap-2 ${active?'bg-brand-600 text-white border-brand-600':'hover:bg-slate-50'}`}>
+                <Icon size={18}/><span className="hidden md:block">{t.label}</span>
+              </Link>
             )
           })}
+        </nav>
+        <div className="flex items-center gap-3 text-sm">
+          <span className="hidden sm:block">{user?.email}</span>
+          <button className="btn" onClick={()=>supabase.auth.signOut()}><LogOut size={16}/> Salir</button>
         </div>
-        <button onClick={onSignOut} className="px-3 py-2 rounded-xl hover:bg-slate-100 flex items-center gap-2">
-          <LogOut size={18}/> Salir
-        </button>
-      </div>
-      <div className="md:hidden grid grid-cols-4 gap-1 px-2 pb-2">
-        {tabs.map(t => {
-          const Icon = t.icon; const active = tab === t.id
-          return (
-            <button key={t.id} onClick={() => setTab(t.id)}
-              className={`py-2 rounded-xl text-sm ${active ? 'bg-sky-600 text-white' : 'bg-white border hover:bg-slate-50'}`}>
-              <div className="flex items-center justify-center gap-1">
-                <Icon size={16}/> {t.label}
-              </div>
-            </button>
-          )
-        })}
       </div>
     </div>
   )

@@ -1,23 +1,21 @@
-# Waskar POS PWA (Supabase)
+# MultirepuestosRG POS (PWA) – FULL
 
-**Stack:** React + Vite + Tailwind + Supabase + Framer Motion + Recharts  
-**Funciones:** Login, Catálogo (RPC `rpc_catalogo_publico`), POS (carrito, cobro), Ticket, Picking.
+Stack: React + Vite + Tailwind + Supabase + Framer Motion + Recharts.
 
-## Configuración
-1. Copia `.env.example` a `.env` y pon tus claves de Supabase:
-   ```
-   VITE_SUPABASE_URL=https://scrwnsgkxxkogdntgggz.supabase.co
-   VITE_SUPABASE_ANON_KEY=TU_ANON_KEY
-   ```
-2. Instala dependencias y ejecuta:
-   ```
-   npm install
-   npm run dev
-   ```
-3. **PWA**: manifest + service worker incluidos.
+Incluye módulos:
+- **Auth** (Supabase).
+- **Catálogo**, **Productos** (CRUD), **Clientes** (CRUD), **Proveedores** (CRUD).
+- **POS** con pagos mixtos, **Ticket 80mm**, **Factura A4**, **Proforma**.
+- **Compras** (proveedor + moneda + TC) con detalle.
+- **Cuentas** (CxC / CxP) desde vistas `v_cxc` y `v_cxp`.
+- **Envíos** con cambio de estado via `set_estado_envio`.
+- **Reportes** por rango (`rpc_ventas_rango`).
 
-## Build & Deploy (Netlify)
-- Build command: `npm run build`
-- Publish directory: `dist`
-- Variables de entorno: `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`
-- `netlify.toml` ya configura Node 20 y redirect SPA.
+## Variables
+- `VITE_SUPABASE_URL`
+- `VITE_SUPABASE_ANON_KEY`
+
+## Netlify
+- Build: `npm run build`, Publish: `dist`
+- Node 20 (netlify.toml)
+- SPA redirect incluido

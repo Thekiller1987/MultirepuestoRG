@@ -1,49 +1,39 @@
 import { useEffect, useState } from 'react'
+import { Routes, Route, useNavigate } from 'react-router-dom'
 import { supabase } from './lib/supabaseClient'
-import Login from './pages/Login'
 import NavBar from './components/NavBar'
+import Login from './pages/Login'
+import Dashboard from './pages/Dashboard'
 import Catalog from './pages/Catalog'
+import Products from './pages/Products'
+import Providers from './pages/Providers'
+import Purchases from './pages/Purchases'
 import POS from './pages/POS'
-import Picking from './pages/Picking'
+import Accounts from './pages/Accounts'
 import Envios from './pages/Envios'
 import Reports from './pages/Reports'
-import { motion } from 'framer-motion'
+import Settings from './pages/Settings'
 
-export default function App() {
-  const [session, setSession] = useState(null)
-  const [tab, setTab] = useState('catalog')
-  const [cart, setCart] = useState([])
-
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => setSession(data.session))
-    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => setSession(session))
-    return () => listener.subscription.unsubscribe()
-  }, [])
-
-  if (!session) return <Login onLogged={setSession} />
-
-  const onAdd = (product) => {
-    setCart(prev => {
-      const f = prev.find(i => i.codigo === product.codigo)
-      if (f) return prev.map(i => i.codigo === product.codigo ? { ...i, cantidad: i.cantidad + 1 } : i)
-      return [...prev, { codigo: product.codigo, nombre: product.nombre, precio_unitario: Number(product.precio_unitario), cantidad: 1 }]
-    })
-  }
-
-  return (
-    <div className="min-h-full">
-      <NavBar tab={tab} setTab={setTab} onSignOut={() => supabase.auth.signOut()} />
-      <motion.div
-        key={tab}
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="py-4">
-        {tab === 'catalog' && <Catalog onAdd={onAdd} />}
-        {tab === 'pos' && <POS />}
-        {tab === 'envios' && <Envios />}
-          {tab === 'picking' && <Picking />}
-        {tab === 'reports' && <Reports />}
-      </motion.div>
-    </div>
-  )
+export default function App(){
+  const [user,setUser]=useState(null); const navigate=useNavigate()
+  useEffect(()=>{
+    supabase.auth.getSession().then(({data})=>{ setUser(data.session?.user||null); if(!data.session) navigate('/login') })
+    const { data: listener } = supabase.auth.onAuthStateChange((_e,sess)=>{ setUser(sess?.user||null); if(sess) navigate('/'); else navigate('/login') })
+    return ()=>listener.subscription?.unsubscribe()
+  },[])
+  if(!user) return <Routes><Route path="/login" element={<Login onReady={setUser}/>} /></Routes>
+  return (<div><NavBar user={user}/>
+    <Routes>
+      <Route path="/" element={<Dashboard/>} />
+      <Route path="/catalog" element={<Catalog/>} />
+      <Route path="/products" element={<Products/>} />
+      <Route path="/providers" element={<Providers/>} />
+      <Route path="/purchases" element={<Purchases/>} />
+      <Route path="/pos" element={<POS/>} />
+      <Route path="/accounts" element={<Accounts/>} />
+      <Route path="/envios" element={<Envios/>} />
+      <Route path="/reports" element={<Reports/>} />
+      <Route path="/settings" element={<Settings/>} />
+      <Route path="*" element={<Dashboard/>} />
+    </Routes></div>)
 }
