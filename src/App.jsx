@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Routes, Route, useNavigate } from 'react-router-dom'
 import { supabase } from './lib/supabaseClient'
-import NavBar from './components/NavBar'
+import Sidebar from './components/Sidebar'
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import Catalog from './pages/Catalog'
@@ -22,7 +22,7 @@ export default function App(){
     return ()=>listener.subscription?.unsubscribe()
   },[])
   if(!user) return <Routes><Route path="/login" element={<Login onReady={setUser}/>} /></Routes>
-  return (<div><NavBar user={user}/>
+  return (<div><Sidebar user={user}/> <div className="md:pl-64">
     <Routes>
       <Route path="/" element={<Dashboard/>} />
       <Route path="/catalog" element={<Catalog/>} />
@@ -35,5 +35,5 @@ export default function App(){
       <Route path="/reports" element={<Reports/>} />
       <Route path="/settings" element={<Settings/>} />
       <Route path="*" element={<Dashboard/>} />
-    </Routes></div>)
+    </Routes></div></div>)
 }
