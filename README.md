@@ -1,21 +1,35 @@
-# MultirepuestosRG POS (PWA) – FULL
+# Multirepuestos RG POS FULL
 
-Stack: React + Vite + Tailwind + Supabase + Framer Motion + Recharts.
+![Logo](public/logo.png)
 
-Incluye módulos:
-- **Auth** (Supabase).
-- **Catálogo**, **Productos** (CRUD), **Clientes** (CRUD), **Proveedores** (CRUD).
-- **POS** con pagos mixtos, **Ticket 80mm**, **Factura A4**, **Proforma**.
-- **Compras** (proveedor + moneda + TC) con detalle.
-- **Cuentas** (CxC / CxP) desde vistas `v_cxc` y `v_cxp`.
-- **Envíos** con cambio de estado via `set_estado_envio`.
-- **Reportes** por rango (`rpc_ventas_rango`).
+Sistema de gestión de ventas, inventario, cuentas y reportes para **Multirepuestos RG**.
 
-## Variables
-- `VITE_SUPABASE_URL`
-- `VITE_SUPABASE_ANON_KEY`
+### 🚀 Stack
+- React + Vite + Tailwind
+- Supabase (Auth, DB, RLS)
+- Framer Motion + Recharts
+- PWA (Service Worker + Update Prompt)
 
-## Netlify
-- Build: `npm run build`, Publish: `dist`
-- Node 20 (netlify.toml)
-- SPA redirect incluido
+### 📦 Módulos incluidos
+- POS con pagos mixtos, crédito, proformas, pedidos/envíos
+- Clientes (CRUD, CxC)
+- Proveedores (CRUD, CxP)
+- Compras (con facturas por pagar)
+- Inventario (Kardex, ajustes, transferencias)
+- Reportes (ventas, compras, margen, top productos/clientes/vendedores)
+- Administración (empresa, impuestos, series, reglas)
+- Historial/Auditoría de movimientos
+
+### ⚙️ Instalación
+```bash
+npm install
+npm run dev
+```
+
+### ☁️ Deploy en Netlify
+1. Subir este proyecto a GitHub.
+2. Conectar el repositorio en Netlify.
+3. Build command: `npm run build`
+4. Publish directory: `dist`
+
+Cada push a GitHub desplegará automáticamente la aplicación.
