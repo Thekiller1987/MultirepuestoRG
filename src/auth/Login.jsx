@@ -11,10 +11,9 @@ export default function Login() {
     e.preventDefault();
     setLoading(true);
     setMsg('');
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
     setLoading(false);
     if (error) setMsg(error.message);
-    else setMsg('Inicio de sesión exitoso, redirigiendo…');
   };
 
   return (
@@ -31,7 +30,6 @@ export default function Login() {
         </div>
         <button className="btn w-full" type="submit" disabled={loading}>{loading ? 'Ingresando…' : 'Entrar'}</button>
         {msg && <p className="text-sm text-red-400">{msg}</p>}
-        <p className="text-xs text-gray-400">¿Olvidaste tu contraseña? Escribe a soporte para restablecerla.</p>
       </form>
     </div>
   );

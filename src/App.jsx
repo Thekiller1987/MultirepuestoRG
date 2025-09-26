@@ -4,8 +4,8 @@ import POS from './components/pos/POS.jsx';
 import ProductList from './components/products/ProductList.jsx';
 import ProviderList from './components/providers/ProviderList.jsx';
 import ImportCSV from './components/importer/ImportCSV.jsx';
-import InventoryAdjust from './components/inventory/InventoryAdjust.jsx';
 import ImportSuppliers from './components/importer/ImportSuppliers.jsx';
+import InventoryAdjust from './components/inventory/InventoryAdjust.jsx';
 import Login from './auth/Login.jsx';
 import { supabase } from './lib/supabaseClient';
 
@@ -39,8 +39,8 @@ export default function App(){
           <NavItem to="/productos">Productos</NavItem>
           <NavItem to="/proveedores">Proveedores</NavItem>
           <NavItem to="/importar">Importar CSV</NavItem>
-          <NavItem to="/inventario">Inventario</NavItem>
           <NavItem to="/importar-proveedores">Importar Proveedores</NavItem>
+          <NavItem to="/inventario">Inventario</NavItem>
         </nav>
         <button onClick={logout} className="btn w-full mt-6">Cerrar sesión</button>
       </aside>
@@ -50,8 +50,8 @@ export default function App(){
           <Route path="/productos" element={<ProductList/>} />
           <Route path="/proveedores" element={<ProviderList/>} />
           <Route path="/importar" element={<ImportCSV/>} />
-          <Route path="/inventario" element={<InventoryAdjust/>} />
           <Route path="/importar-proveedores" element={<ImportSuppliers/>} />
+          <Route path="/inventario" element={<InventoryAdjust/>} />
         </Routes>
       </main>
     </div>

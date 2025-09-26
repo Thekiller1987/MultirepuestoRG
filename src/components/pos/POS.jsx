@@ -7,7 +7,6 @@ export default function POS(){
   const [cart, setCart] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // Cargar productos
   useEffect(()=>{
     const load = async () => {
       setLoading(true);
@@ -21,7 +20,6 @@ export default function POS(){
     load();
   }, []);
 
-  // Filtro por código o nombre
   const filtered = useMemo(()=>{
     const q = (query || '').toLowerCase().trim();
     if (!q) return products;
@@ -31,7 +29,6 @@ export default function POS(){
     );
   },[products, query]);
 
-  // Agregar producto al carrito
   const addToCart = (p) => {
     setCart(cs => {
       const idx = cs.findIndex(x => x.id === p.id);
@@ -44,20 +41,17 @@ export default function POS(){
     });
   };
 
-  // Vaciar carrito
   const clearCart = () => setCart([]);
 
-  // Total
   const total = useMemo(()=> cart.reduce((s,i)=> s + (i.qty * (i.price || 0)), 0), [cart]);
 
-  // Cobrar e imprimir (inserta movimientos; tu regla los lleva a movimientos_stock)
   const checkout = async () => {
     if (cart.length === 0) return;
     for (const it of cart) {
       const qty = it.qty || 1;
       const { error } = await supabase.from('stock_movements').insert({
         product_id: it.id,
-        type: 'sale',           // sale | import | adjust
+        type: 'sale',
         qty,
         price: it.price || 0,
         note: 'Venta POS',
@@ -69,7 +63,6 @@ export default function POS(){
       }
     }
 
-    // Ticket
     const html = `<html><head><title>Ticket</title>
       <style>body{font-family:monospace;padding:12px}</style></head><body>
       <h3>Multirepuestos RG</h3>
@@ -84,7 +77,6 @@ export default function POS(){
 
     setCart([]);
 
-    // Refrescar productos (por si quieres ver stock actualizado calculado por la vista)
     const { data } = await supabase
       .from('products')
       .select('id, code, name, unit, price, stock')
@@ -92,7 +84,6 @@ export default function POS(){
     setProducts(data || []);
   };
 
-  // Esc para limpiar búsqueda
   const onKeyDownSearch = (e) => {
     if (e.key === 'Escape') setQuery('');
   };
@@ -105,7 +96,6 @@ export default function POS(){
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {/* Panel izquierdo: búsqueda y listado */}
         <div className="card">
           <label className="block text-xs text-gray-300 mb-1">Buscar</label>
           <input
@@ -143,7 +133,6 @@ export default function POS(){
           </div>
         </div>
 
-        {/* Panel derecho: carrito y cobro */}
         <div className="card">
           <div className="flex items-center justify-between mb-2">
             <h2 className="text-lg font-semibold text-blue-400">Carrito</h2>
