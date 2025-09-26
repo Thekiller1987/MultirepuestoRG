@@ -18,11 +18,11 @@ export default function ProviderForm({ onSaved, initial }){
 
   return (
     <form onSubmit={save} className="grid grid-cols-2 gap-3">
-      <input className="input" placeholder="Nombre" value={form.name} onChange={e=>setForm(f=>({...f,name:e.target.value}))} required />
-      <input className="input" placeholder="N° fiscal" value={form.tax_id} onChange={e=>setForm(f=>({...f,tax_id:e.target.value}))} />
-      <input className="input" placeholder="Teléfono" value={form.phone} onChange={e=>setForm(f=>({...f,phone:e.target.value}))} />
-      <input className="input" placeholder="Email" value={form.email} onChange={e=>setForm(f=>({...f,email:e.target.value}))} />
-      <input className="input col-span-2" placeholder="Dirección" value={form.address} onChange={e=>setForm(f=>({...f,address:e.target.value}))} />
+      <input className="input" placeholder="Nombre" aria-label="Nombre del proveedor" value={form.name} onChange={e=>setForm(f=>({...f,name:e.target.value}))} required />
+      <input className="input" placeholder="N° fiscal" aria-label="Número fiscal (RUC)" value={form.tax_id} onChange={e=>setForm(f=>({...f,tax_id:e.target.value}))} />
+      <input className="input" placeholder="Teléfono" aria-label="Teléfono de contacto" value={form.phone} onChange={e=>setForm(f=>({...f,phone:e.target.value}))} />
+      <input className="input" placeholder="Email" aria-label="Correo electrónico" value={form.email} onChange={e=>setForm(f=>({...f,email:e.target.value}))} />
+      <input className="input col-span-2" placeholder="Dirección" aria-label="Dirección" value={form.address} onChange={e=>setForm(f=>({...f,address:e.target.value}))} />
       <div className="col-span-2"><button className="btn" type="submit" disabled={saving}>{saving?'Guardando...':'Guardar'}</button></div>
     </form>
   );

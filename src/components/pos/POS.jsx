@@ -40,7 +40,7 @@ export default function POS(){
       <h1 className="text-2xl font-bold">POS</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="card">
-          <input className="input" placeholder="Buscar por código o descripción" value={query} onChange={e=>setQuery(e.target.value)} />
+          <input className="input" placeholder="Buscar por código (ESC para limpiar) o descripción" value={query} onChange={e=>setQuery(e.target.value)} />
           <div className="mt-3 max-h-80 overflow-y-auto divide-y divide-gray-800">
             {loading && <div className="py-3 text-sm text-gray-400">Cargando productos...</div>}
             {!loading && filtered.length===0 && <div className="py-3 text-sm text-red-300">Producto no encontrado. Verifica el código o nombre.</div>}
