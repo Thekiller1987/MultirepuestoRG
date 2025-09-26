@@ -1,10 +1,1 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-body {
-  @apply bg-dark text-white font-sans;
-}
-button {
-  @apply bg-primary text-white px-4 py-2 rounded-lg hover:bg-accent transition;
-}
+@tailwind base;@tailwind components;@tailwind utilities;body{@apply bg-dark text-white font-sans;} .btn{@apply bg-primary text-white px-4 py-2 rounded-lg hover:bg-accent hover:text-black transition;} .card{@apply bg-gray-900/70 rounded-2xl p-4 shadow-lg;} .input{@apply bg-gray-800 text-white border border-gray-700 rounded-lg px-3 py-2 w-full;} .table{@apply w-full text-sm;} .th,.td{@apply border-b border-gray-700 px-2 py-2;}
