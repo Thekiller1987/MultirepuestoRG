@@ -4,6 +4,7 @@ import POS from './components/pos/POS.jsx';
 import ProductList from './components/products/ProductList.jsx';
 import ProviderList from './components/providers/ProviderList.jsx';
 import ImportCSV from './components/importer/ImportCSV.jsx';
+import ImportSuppliers from './components/importer/ImportSuppliers.jsx';
 import Login from './auth/Login.jsx';
 import { supabase } from './lib/supabaseClient';
 
@@ -37,6 +38,7 @@ export default function App(){
           <NavItem to="/productos">Productos</NavItem>
           <NavItem to="/proveedores">Proveedores</NavItem>
           <NavItem to="/importar">Importar CSV</NavItem>
+          <NavItem to="/importar-proveedores">Importar Proveedores</NavItem>
         </nav>
         <button onClick={logout} className="btn w-full mt-6">Cerrar sesión</button>
       </aside>
@@ -46,6 +48,7 @@ export default function App(){
           <Route path="/productos" element={<ProductList/>} />
           <Route path="/proveedores" element={<ProviderList/>} />
           <Route path="/importar" element={<ImportCSV/>} />
+          <Route path="/importar-proveedores" element={<ImportSuppliers/>} />
         </Routes>
       </main>
     </div>

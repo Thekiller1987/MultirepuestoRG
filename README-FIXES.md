@@ -19,3 +19,25 @@ O edita `src/lib/supabaseClient.js` con tus credenciales.
 
 ## CSV
 Formato: `code,name,category,unit,price,cost,stock`
+
+### Tabla de movimientos de stock (Kardex)
+Crea esta tabla para registrar ventas/importaciones:
+
+- `stock_movements` (
+  id bigserial pk,
+  product_id bigint references products(id) on delete cascade,
+  type text check (type in ('sale','import','adjust')),
+  qty integer not null,
+  price numeric default 0,
+  note text,
+  created_at timestamptz default now()
+)
+
+> El POS descuenta stock e inserta un movimiento `sale` por ítem vendido.
+
+### Roles (UI)
+Para bloquear acciones a no-admins, pon en el usuario (en Supabase → Users → Edit user → User metadata) la clave:
+```json
+{ "role": "admin" }
+```
+Si **no** tiene `role: "admin"`, el botón **Eliminar** aparece deshabilitado.

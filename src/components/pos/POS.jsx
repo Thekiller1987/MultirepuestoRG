@@ -7,6 +7,32 @@ export default function POS(){
   const [cart, setCart] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  
+  const checkout = async () => {
+    if (cart.length===0) return;
+    // Inserta movimientos de salida (la BD hará el cálculo de stock)
+    for (const it of cart) {
+      const qty = it.qty||1;
+      await supabase.from('stock_movements').insert({
+        product_id: it.id, type: 'sale', qty: qty, price: it.price||0, note: 'Venta POS'
+      });
+    }
+    // Ticket de impresión
+    const html = `<html><head><title>Ticket</title><style>body{font-family:monospace;padding:12px}</style></head><body>
+      <h3>Multirepuestos RG</h3>
+      <div>${new Date().toLocaleString()}</div>
+      <hr/>${cart.map(i=>`<div>${i.qty} x ${i.name} — C$${(i.price||0).toFixed(2)}</div>`).join('')}
+      <hr/><div><b>Total: C$${cart.reduce((s,i)=>s + (i.qty*(i.price||0)),0).toFixed(2)}</b></div>
+    </body></html>`;
+    const w = window.open('', 'print'); w.document.write(html); w.document.close(); w.focus(); w.print();
+    setCart([]);
+    // refrescar productos
+    const { data } = await supabase.from('products').select('*').order('name');
+    setProducts(data||[]);
+  };
+
+
+
   useEffect(()=>{
     const load = async () => {
       setLoading(true);

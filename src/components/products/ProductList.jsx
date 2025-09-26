@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabaseClient';
+
+import { supabase } from '../../lib/supabaseClient';
 import ProductForm from './ProductForm.jsx';
 
 export default function ProductList(){
   const [rows,setRows] = useState([]);
+  const [session,setSession] = useState(null);
+
   const [showForm,setShowForm] = useState(false);
   const [editItem,setEditItem] = useState(null);
   const [q,setQ] = useState('');
@@ -13,6 +17,7 @@ export default function ProductList(){
     if (!error) setRows(data||[]);
   };
   useEffect(()=>{ load(); }, []);
+  useEffect(()=>{ supabase.auth.getSession().then(({data})=>setSession(data.session)); },[]);
 
   const del = async (id)=>{
     if (!confirm('¿Eliminar producto?')) return;
@@ -48,7 +53,7 @@ export default function ProductList(){
                 <td className="td">{r.stock||0}</td>
                 <td className="td text-right space-x-2">
                   <button className="btn" onClick={()=>{setEditItem(r); setShowForm(true);}}>Editar</button>
-                  <button className="btn" onClick={()=>del(r.id)}>Eliminar</button>
+                  <button className="btn" onClick={()=>del(r.id)} disabled={session?.user?.user_metadata?.role!=='admin'}>Eliminar</button>
                 </td>
               </tr>
             ))}
