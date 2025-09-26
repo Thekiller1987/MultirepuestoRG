@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabaseClient';
-
-import { supabase } from '../../lib/supabaseClient';
 import ProviderForm from './ProviderForm.jsx';
 
 export default function ProviderList(){

@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabaseClient';
-
-import { supabase } from '../../lib/supabaseClient';
 import ProductForm from './ProductForm.jsx';
 
 export default function ProductList(){
