@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { supabase } from '../../lib/supabaseClient';
 
 export default function ProductForm({ onSaved, initial }){
-  const [form,setForm] = useState(initial || { code:'', name:'', category:'', unit:'UND', price:'0', cost:'0', stock:'0' });
+  const [form,setForm] = useState(initial || { code:'', name:'', category:'', unit:'UND', price:'0', cost:'0', stock:'0', margin:'0' });
   const [saving,setSaving] = useState(false);
   const [errors, setErrors] = useState({});
 
@@ -71,16 +71,44 @@ export default function ProductForm({ onSaved, initial }){
                value={form.unit} onChange={e=>setForm(f=>({...f,unit:e.target.value}))} />
       </Field>
 
+      <Field id="margin" label="Margen % (auto)" error={null}>
+        <input id="margin" className="input w-full" placeholder="Margen %" aria-label="Margen porcentaje"
+               type="number" min="0" step="0.01"
+               value={form.margin}
+               onChange={e=>{
+                 const m = parseFloat(e.target.value||0);
+                 setForm(f=>({
+                   ...f,
+                   margin: e.target.value,
+                   price: (parseFloat(f.cost||0) * (1 + (m/100))).toFixed(2)
+                 }));
+               }} />
+      </Field>
+
       <Field id="price" label="Precio venta *" error={errors.price}>
         <input id="price" className="input w-full" placeholder="Precio venta" aria-label="Precio de venta"
                type="number" min="0" step="0.01"
-               value={form.price} onChange={e=>setForm(f=>({...f,price:e.target.value}))} required />
+               value={form.price} onChange={e=>{
+                 const v = e.target.value;
+                 setForm(f=>({
+                   ...f,
+                   price: v,
+                   margin: (parseFloat(f.cost||0)>0 ? ((parseFloat(v||0)/parseFloat(f.cost||0) - 1)*100).toFixed(2) : f.margin)
+                 }));
+               }} required />
       </Field>
 
       <Field id="cost" label="Costo" error={errors.cost}>
         <input id="cost" className="input w-full" placeholder="Costo" aria-label="Costo"
                type="number" min="0" step="0.01"
-               value={form.cost} onChange={e=>setForm(f=>({...f,cost:e.target.value}))} />
+               value={form.cost} onChange={e=>{
+                 const v = e.target.value;
+                 setForm(f=>({
+                   ...f,
+                   cost: v,
+                   price: (parseFloat(v||0) * (1 + (parseFloat(f.margin||0)/100))).toFixed(2)
+                 }));
+               }} />
       </Field>
 
       <Field id="stock" label="Stock (entero) *" error={errors.stock}>

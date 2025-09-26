@@ -63,7 +63,7 @@ export default function POS(){
 
   return (
     <div className="space-y-4">
-      <h1 className="text-2xl font-bold">POS</h1>
+      <h1 className="text-2xl font-bold text-amber-400">Punto de Venta</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="card">
           <input className="input" placeholder="Buscar por código (ESC para limpiar) o descripción" value={query} onChange={e=>setQuery(e.target.value)} />
@@ -93,6 +93,8 @@ export default function POS(){
                        const v = Math.max(1, +e.target.value||1);
                        setCart(cs=>{const c=[...cs]; c[idx].qty=v; return c;});
                      }} />
+                <button className="btn-amber px-2 py-1" onClick={()=> setCart(cs=>{const c=[...cs]; c[idx].qty=(c[idx].qty||1)+1; return c;})} type="button">+</button>
+              </div>
               <div>C${(it.price||0).toFixed(2)}</div>
               <button className="btn" onClick={()=> setCart(cs=> cs.filter((_,i)=>i!==idx))}>Quitar</button>
             </div>
